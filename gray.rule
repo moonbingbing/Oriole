@@ -1,0 +1,8 @@
+----
+#淘宝内容规则
+name = taobao
+signid = 1
+url_rule = member/mini_login.asp|member/minilogin.asp|wap/mini_login.asp|ssyy/login.php|auction/buy_nowsw.asp|auction/sw_buy_now.htm.asp|auction/buy_nowxn.asp
+host_rule = taobao|alipay|taobeo|taotao|taodao|ta0ba0|tabao|taoibao|taobac
+domain_rule = .bij.pl|.ch.tf|.345.pl|.vv.cc|.rr.nu|.moo.no|.downsc.net|.dnsla.net|.imblog.in|.c.la|.ch.tf|.sg.tf|.edu.tf|.mu.la|.com.uue|.uue.osa|.cp.cx|.pc.to|.ne.to|.joa.to|.ivy.to|.ce.to|.th.tc|.us.tc|.tk|.co.cc|.cn.im|.gv.vg|.osa.pl|.ec.tc|.ce.ms|.co.tv|.co.be|.sg.tf|.to|.dfha.net|.cu.cc|.ss.la|.cz.cc|.cx.cc|.bname.us|.co.in|.cn.la|.3322.net|.5166.info|.oicp.net|.vicp.cc|.mir3fb.com|.hk.tc|.usa.cc|.pee.pl|.cnla.in|.ibiz.cc|.3322.org|.cc.ai|.c0m.li
+----
