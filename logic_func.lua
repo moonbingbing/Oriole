@@ -16,7 +16,7 @@ function check_url(url)
     -- first query the db, if not found, then match the gray rules
     local match, ret = url_match_db(quoted_host)
     if not match then
-        match, ret = match_gray_rules(url ,host)
+        match, ret = match_gray_rules(url, host)
     end
 
     return cjson.encode(ret)
@@ -45,35 +45,55 @@ function match_gray_rules(url, host)
     local ret = {['type']=config.GRAY_HOST, ['reason']=''}
     
     for _, gray_rule in pairs(gray_rules) do
-	for name, value in pairs(gray_rule) do
-	    if name == config.URL_RULE then
-                local m = ngx.re.match(url, value, 'jo')
-                if m then
-                    match = true
-                    ret['type'] = config.BLACK_HOST
-	    	    ret['reason'] = gray_rule['name']
-                    break
-                end
-            elseif name == config.HOST_RULE then
-                local m = ngx.re.match(host, value, 'jo')
-                if m then
-                    match = true
-                    ret['type'] = config.BLACK_HOST
-	    	    ret['reason'] = gray_rule['name']
-                    break
-                end
-            elseif name == config.DOMAIN_RULE then
-                local m = ngx.re.match(host, value, 'jo')
-                if m then
-                    match = true
-                    ret['type'] = config.BLACK_HOST
-	    	    ret['reason'] = gray_rule['name']
-                    break
-                end
+	--ngx.say('----------------')
+        --ngx.say(_)
+        --ngx.say('----------------')
+	--for k,v in pairs(gray_rule) do
+	--   ngx.say(k)
+	--    ngx.say(v)
+        --end
+	local url_rule = gray_rule[config.URL_RULE]
+	local host_rule = gray_rule[config.HOST_RULE]
+	local domain_rule = gray_rule[config.DOMAIN_RULE]
+
+ 	if url_rule then
+	    match = judge_rule_result(url, url_rule)
+            if not match then
+		goto continue
             end
         end
+
+        if host_rule then
+            match = judge_rule_result(host, host_rule)
+            if not match then
+		goto continue
+            end
+        end
+
+        if domain_rule then
+            match = judge_rule_result(host, domain_rule)
+            if not match then
+		goto continue
+            end
+        end
+
+	if match then
+            ret['type'] = config.BLACK_HOST
+	    ret['reason'] = gray_rule['name']
+        end
+        
+        ::continue::
     end
     return match, ret
+end
+
+function judge_rule_result(content, rule)
+    local m = ngx.re.match(content, rule, 'jo')
+    if m then
+        return true
+    else
+        return false
+    end
 end
 
 function query_host_list(host_type, quoted_host)

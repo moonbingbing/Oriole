@@ -23,12 +23,14 @@ function load_gray_rules(gary_rule_file)
                     if key == config.DOMAIN_RULE then
 			value = value .. '$'
                     end
-                    value = string.gsub(value, [[%.]], [[\%.]])
+                    value = string.gsub(value, [[%.]], [[\%.]]) --use \. to replace . for regex
                     rule[key] = value
 		end
 	    end
         end
-	table.insert(gray_rules, rule)
+        if next(rule) ~= nil then
+	    table.insert(gray_rules, rule)
+        end
     end
 	
     return true, gray_rules
