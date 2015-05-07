@@ -19,7 +19,6 @@ RUN apt-get install -y phantomjs
 #install redis
 RUN apt-get install -y redis-server
 RUN sed 's/^appendonly no/appendonly yes/' -i /etc/redis/redis.conf
-COPY appendonly.aof /var/lib/redis/
 
 #install beanstalkd
 RUN apt-get install -y beanstalkd && mkdir /var/lib/beanstalkd/binlog
